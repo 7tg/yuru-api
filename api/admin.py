@@ -7,6 +7,8 @@ from api.models import (
     Participant,
     Winner,
     Coupon,
+    Achivement,
+    AchivementList,
     )
 
 # Register your models here.
@@ -17,3 +19,6 @@ admin.site.register(Campaign)
 admin.site.register(Participant)
 admin.site.register(Winner)
 admin.site.register(Coupon)
+admin.site.register(Achivement)
+admin.site.register(AchivementList)
+
