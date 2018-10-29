@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date
 
 # Create your models here.
 class User(models.Model):
@@ -10,6 +11,13 @@ class User(models.Model):
     sex =           models.CharField(max_length=1) # M: For male, F: For female
     passwd =        models.CharField(max_length=64)
     salt =          models.CharField(max_length=64, default="")
+
+
+    def get_age(self):
+        """Function for getting users age"""
+        today = date.today()
+        born = self.birth_date
+        return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
 
     def __str__(self):
         return self.first_name + " " + self.last_name
@@ -36,19 +44,37 @@ class Company(models.Model):
 
 class Campaign(models.Model):
     """Campaign model for api project"""
-    name = models.CharField(max_length=255)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    desc = models.TextField()
-    capacity = models.IntegerField()
-    capacity_taken = models.IntegerField()
+    name =          models.CharField(max_length=255)
+    company =       models.ForeignKey(Company, on_delete=models.CASCADE)
+    desc =          models.TextField()
+    capacity =      models.IntegerField()
+    capacity_taken =models.IntegerField()
+    is_closed =     models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
 
 class Participant(models.Model):
     """Participant model for api project"""
-    campaign = models.ForeignKey(Campaign, null=False, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, null=False,on_delete=models.CASCADE)
+    campaign =  models.ForeignKey(Campaign, null=False, on_delete=models.CASCADE)
+    user =      models.ForeignKey(User, null=False,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.campaign.__str__() + " -- " + self.user.__str__()
+
+class Coupon(models.Model):
+    """Coupon model for api project"""
+    code =      models.CharField(max_length=255, unique=True)
+    campaign =  models.ForeignKey(Campaign, on_delete=models.CASCADE)
+    is_used =      models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.code
+
+class Winner(models.Model):
+    """Winner model for api project"""
+    participant=models.ForeignKey(Participant, on_delete=models.CASCADE)
+    coupon =    models.ForeignKey(Coupon, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.participant.__str__() + " -- " + self.coupon.__str__()
