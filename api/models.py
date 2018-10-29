@@ -19,6 +19,7 @@ class User(models.Model):
         today = date.today()
         born = self.birth_date
         return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+    get_age.short_description = 'AGE'
 
     def __str__(self):
         return self.first_name + " " + self.last_name
