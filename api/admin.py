@@ -12,9 +12,9 @@ from api.models import (
     )
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'mail', 'birth_date', 'get_age', 'sex', 'id')
+    list_display = ('first_name', 'last_name', 'mail', 'birth_date', 'get_age', 'gender', 'id')
     search_fields = ('first_name', 'last_name', 'mail')
-    list_filter = ('birth_date','sex')
+    list_filter = ('birth_date','gender')
 
 class StepAdmin(admin.ModelAdmin):
     list_display = ('date', 'user', 'step')

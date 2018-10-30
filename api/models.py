@@ -4,14 +4,15 @@ from datetime import date
 # Create your models here.
 class User(models.Model):
     """User model for api project"""
-    id =       models.BigAutoField(primary_key=True)
+    id =            models.BigAutoField(primary_key=True)
     first_name =    models.CharField(max_length=30, null=False)
     last_name =     models.CharField(max_length=30, null=False)
     mail =          models.EmailField(unique=True, null=False)
     birth_date =    models.DateField(null=False) # Birthdate field
-    sex =           models.CharField(max_length=1, null=False) # M: For male, F: For female
+    gender =           models.CharField(max_length=1, null=False) # M: For male, F: For female
     passwd =        models.CharField(max_length=64, null=False)
     salt =          models.CharField(max_length=64, default="")
+    token =         models.CharField(max_length=64, default="")
 
 
     def get_age(self):
